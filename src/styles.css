@@ -26,8 +26,15 @@ body,
   margin: 0;
   padding: 0;
   min-height: 100vh;
+  min-height: 100dvh;
   background: radial-gradient(1200px 600px at 20% -10%, #1e2e4d 0%, var(--bg) 60%);
   color: var(--ink);
+  -webkit-text-size-adjust: 100%;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  overscroll-behavior-y: none;
 }
 
 a {
@@ -47,6 +54,7 @@ button {
   display: grid;
   grid-template-rows: auto 1fr auto;
   min-height: 100vh;
+  min-height: 100dvh;
 }
 
 .topbar {
@@ -54,6 +62,9 @@ button {
   align-items: center;
   gap: 16px;
   padding: 14px 22px;
+  padding-left: max(14px, env(safe-area-inset-left));
+  padding-right: max(14px, env(safe-area-inset-right));
+  padding-top: max(14px, env(safe-area-inset-top));
   border-bottom: 1px solid var(--border);
   background: rgba(0, 0, 0, 0.2);
   backdrop-filter: blur(6px);
@@ -80,6 +91,13 @@ button {
   display: flex;
   gap: 6px;
   margin-left: auto;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.nav::-webkit-scrollbar {
+  display: none;
 }
 
 .nav a {
@@ -87,6 +105,7 @@ button {
   border-radius: 999px;
   color: var(--ink-dim);
   font-weight: 500;
+  white-space: nowrap;
 }
 
 .nav a.active,
@@ -98,10 +117,15 @@ button {
 
 .content {
   padding: 28px;
+  padding-left: max(28px, env(safe-area-inset-left));
+  padding-right: max(28px, env(safe-area-inset-right));
 }
 
 .footer {
   padding: 14px 22px;
+  padding-bottom: max(14px, env(safe-area-inset-bottom));
+  padding-left: max(14px, env(safe-area-inset-left));
+  padding-right: max(14px, env(safe-area-inset-right));
   font-size: 0.85rem;
   color: var(--ink-dim);
   border-top: 1px solid var(--border);
@@ -122,15 +146,30 @@ button {
 .hero {
   max-width: 1000px;
   margin: 0 auto;
-  padding: 40px 18px;
+  padding: 28px 4px;
   display: grid;
   grid-template-columns: 1fr;
-  gap: 28px;
+  gap: 24px;
 }
 @media (min-width: 860px) {
   .hero {
     grid-template-columns: 1.1fr 0.9fr;
     align-items: center;
+    padding: 40px 18px;
+  }
+}
+.hero-illust {
+  display: grid;
+  place-items: center;
+}
+.hero-illust svg {
+  width: 100%;
+  max-width: 260px;
+  height: auto;
+}
+@media (max-width: 640px) {
+  .hero-illust {
+    display: none;
   }
 }
 .hero h1 {
@@ -221,11 +260,12 @@ button {
 }
 .canvas-wrap {
   position: relative;
-  height: 560px;
+  height: clamp(340px, 60vh, 560px);
   border-radius: var(--radius);
   overflow: hidden;
   background: linear-gradient(180deg, #142039, #0d1529);
   border: 1px solid var(--border);
+  touch-action: none;
 }
 .canvas-hint {
   position: absolute;
@@ -290,19 +330,23 @@ button {
 /* Gus */
 .gus {
   position: fixed;
-  bottom: 18px;
-  right: 18px;
+  bottom: max(18px, env(safe-area-inset-bottom));
+  right: max(18px, env(safe-area-inset-right));
   display: flex;
   align-items: flex-end;
   gap: 10px;
   z-index: 20;
   max-width: min(460px, calc(100vw - 36px));
+  pointer-events: none;
+}
+.gus > * {
+  pointer-events: auto;
 }
 .gus-bubble {
   background: var(--panel);
   border: 1px solid var(--border);
   border-radius: 14px;
-  padding: 10px 14px;
+  padding: 10px 34px 10px 14px;
   color: var(--ink);
   box-shadow: var(--shadow);
   font-size: 0.95rem;
@@ -321,11 +365,83 @@ button {
   border-bottom: 1px solid var(--border);
   transform: rotate(-45deg);
 }
+.gus-close {
+  position: absolute;
+  top: 4px;
+  right: 6px;
+  width: 24px;
+  height: 24px;
+  display: grid;
+  place-items: center;
+  border-radius: 999px;
+  border: 0;
+  background: transparent;
+  color: var(--ink-dim);
+  font-size: 1.2rem;
+  line-height: 1;
+  cursor: pointer;
+}
+.gus-close:hover {
+  color: var(--ink);
+  background: rgba(255, 255, 255, 0.06);
+}
+.gus-toggle {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  flex: 0 0 auto;
+  border-radius: 999px;
+  -webkit-tap-highlight-color: transparent;
+}
+.gus-toggle:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
 .gus-figure {
   width: 84px;
   height: 84px;
   flex: 0 0 auto;
   filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.35));
+  display: block;
+}
+@media (max-width: 640px) {
+  .gus {
+    bottom: max(10px, env(safe-area-inset-bottom));
+    right: max(10px, env(safe-area-inset-right));
+    left: max(10px, env(safe-area-inset-left));
+    max-width: none;
+    align-items: flex-end;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+  }
+  .gus-bubble {
+    order: 1;
+    flex: 1 1 100%;
+    max-width: 100%;
+    font-size: 0.9rem;
+    max-height: 32vh;
+    overflow-y: auto;
+  }
+  .gus-bubble::after {
+    right: 28px;
+    bottom: -8px;
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+    border-left: 1px solid var(--border);
+    transform: rotate(45deg);
+  }
+  .gus-toggle {
+    order: 2;
+  }
+  .gus-figure {
+    width: 64px;
+    height: 64px;
+  }
+  .gus.closed .gus-figure {
+    width: 52px;
+    height: 52px;
+  }
 }
 
 /* Quiz */
@@ -505,4 +621,121 @@ h2 {
   background: rgba(255, 255, 255, 0.06);
   color: var(--ink-dim);
   border: 1px solid var(--border);
+}
+
+/* ---------- Mobile breakpoint ---------- */
+@media (max-width: 640px) {
+  .content {
+    padding: 14px;
+    padding-left: max(14px, env(safe-area-inset-left));
+    padding-right: max(14px, env(safe-area-inset-right));
+    /* leave room at the bottom so Gus's bubble doesn't cover primary actions */
+    padding-bottom: 200px;
+  }
+  .topbar {
+    padding: 10px 14px;
+    padding-left: max(14px, env(safe-area-inset-left));
+    padding-right: max(14px, env(safe-area-inset-right));
+    padding-top: max(10px, env(safe-area-inset-top));
+    gap: 10px;
+  }
+  .brand {
+    font-size: 1rem;
+    gap: 8px;
+  }
+  .brand-mark {
+    width: 28px;
+    height: 28px;
+  }
+  .nav {
+    gap: 2px;
+  }
+  .nav a {
+    padding: 6px 10px;
+    font-size: 0.9rem;
+  }
+  .panel {
+    padding: 14px;
+    border-radius: 12px;
+  }
+  .footer {
+    font-size: 0.8rem;
+  }
+  .hero {
+    padding: 18px 0;
+  }
+  .hero h1 {
+    font-size: clamp(1.6rem, 6vw, 2rem);
+  }
+  .hero p {
+    font-size: 1rem;
+  }
+  .mode-grid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+  .mode-card {
+    padding: 16px;
+  }
+  .btn {
+    padding: 10px 16px;
+    /* 44px min tap target */
+    min-height: 44px;
+  }
+  .tab {
+    min-height: 36px;
+    padding: 6px 14px;
+  }
+  .choice {
+    padding: 12px 14px;
+    min-height: 48px;
+  }
+  .pick-card {
+    padding: 12px;
+  }
+  .case {
+    gap: 12px;
+  }
+  .case-meta {
+    gap: 8px 14px;
+    font-size: 0.85rem;
+  }
+  .kv {
+    grid-template-columns: 1fr;
+    gap: 2px 0;
+  }
+  .kv div:nth-child(odd) {
+    font-size: 0.82rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin-top: 8px;
+  }
+  .stepbar .step {
+    font-size: 0.75rem;
+    padding: 3px 8px;
+  }
+  .canvas-hint {
+    font-size: 0.72rem;
+    top: 8px;
+    left: 8px;
+    padding: 3px 8px;
+  }
+  .explore {
+    gap: 12px;
+  }
+  h2 {
+    font-size: 1.25rem;
+  }
+  h3 {
+    font-size: 1.05rem;
+  }
+}
+
+/* Prevent horizontal overflow from long words/inline content */
+.panel,
+.mode-card,
+.pick-card,
+.choice,
+.gus-bubble {
+  overflow-wrap: anywhere;
 }

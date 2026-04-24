@@ -1,4 +1,4 @@
-# PhysioChaya
+# PhysioGus
 
 Interactive physiotherapy learning tool with a 3D body explorer, case studies, and quick quizzes — taught by **Gus**, a friendly ginger cat.
 

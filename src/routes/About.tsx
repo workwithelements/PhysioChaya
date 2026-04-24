@@ -9,9 +9,9 @@ export function About() {
 
   return (
     <div className="panel" style={{ maxWidth: 760, margin: '0 auto' }}>
-      <h2>About PhysioChaya</h2>
+      <h2>About PhysioGus</h2>
       <p>
-        PhysioChaya is an interactive learning tool for trainee physiotherapists, covering the ankle, knee, hip,
+        PhysioGus is an interactive learning tool for trainee physiotherapists, covering the ankle, knee, hip,
         shoulder, elbow, and wrist. It has three modes:
       </p>
       <ul>

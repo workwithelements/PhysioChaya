@@ -15,7 +15,7 @@ export function Home() {
         <div>
           <h1>Learn physio by poking a 3D body — with Gus.</h1>
           <p>
-            PhysioChaya is a hands-on learning tool for trainee physiotherapists. Explore the six major joints of the
+            PhysioGus is a hands-on learning tool for trainee physiotherapists. Explore the six major joints of the
             body, work through patient case studies the way you will in clinic, and quiz yourself as you go. Gus — a
             friendly ginger cat — hangs out in the corner to cheer you on and explain the tricky bits.
           </p>
@@ -31,8 +31,8 @@ export function Home() {
             </Link>
           </div>
         </div>
-        <div style={{ display: 'grid', placeItems: 'center' }}>
-          <svg viewBox="0 0 240 240" width="260" height="260" xmlns="http://www.w3.org/2000/svg" aria-hidden>
+        <div className="hero-illust">
+          <svg viewBox="0 0 240 240" xmlns="http://www.w3.org/2000/svg" aria-hidden>
             <defs>
               <radialGradient id="glow" cx="50%" cy="50%" r="60%">
                 <stop offset="0%" stopColor="#ff8d3a" stopOpacity="0.45" />

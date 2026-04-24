@@ -25,7 +25,7 @@ export function App() {
             <circle cx="58" cy="52" r="2.2" fill="#1a120a" />
             <path d="M48 60 L52 60 L50 63 Z" fill="#7a3d1d" />
           </svg>
-          PhysioChaya
+          PhysioGus
         </Link>
         <nav className="nav">
           <NavLink to="/" end>

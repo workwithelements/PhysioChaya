@@ -15,7 +15,7 @@ export function Explore() {
   return (
     <div className="explore">
       <div className="canvas-wrap">
-        <div className="canvas-hint">Drag to rotate · scroll to zoom · click a marker</div>
+        <div className="canvas-hint">Drag / swipe to rotate · pinch or scroll to zoom · tap a marker</div>
         <BodyScene />
       </div>
       <JointPanel />

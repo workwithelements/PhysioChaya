@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from 'react'
 import { useApp } from '../store'
 import type { GusMood } from '../types'
 
@@ -74,12 +75,38 @@ function GusSvg({ mood }: GusSvgProps) {
 export function Gus() {
   const mood = useApp((s) => s.gusMood)
   const line = useApp((s) => s.gusLine)
+  const [open, setOpen] = useState(true)
+  const lastLine = useRef(line)
+
+  useEffect(() => {
+    if (line !== lastLine.current) {
+      lastLine.current = line
+      setOpen(true)
+    }
+  }, [line])
+
   return (
-    <div className="gus" aria-live="polite">
-      <div className="gus-bubble">
-        <strong style={{ color: 'var(--accent-2)' }}>Gus:</strong> {line}
-      </div>
-      <GusSvg mood={mood} />
+    <div className={`gus ${open ? 'open' : 'closed'}`} aria-live="polite">
+      {open && (
+        <div className="gus-bubble">
+          <button
+            className="gus-close"
+            aria-label="Hide Gus's message"
+            onClick={() => setOpen(false)}
+          >
+            ×
+          </button>
+          <strong style={{ color: 'var(--accent-2)' }}>Gus:</strong> {line}
+        </div>
+      )}
+      <button
+        className="gus-toggle"
+        aria-label={open ? 'Hide Gus' : 'Show Gus'}
+        aria-expanded={open}
+        onClick={() => setOpen((o) => !o)}
+      >
+        <GusSvg mood={mood} />
+      </button>
     </div>
   )
 }
